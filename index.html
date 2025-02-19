@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiempo de Impacto de Asteroide</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="mainContainer">
+        <div id="universe">
+            <img id="earth" src="earth.png" alt="Tierra">
+            <img id="asteroid" src="asteroid.png" alt="Asteroide">
+            <div id="progressBar">
+            </div>
+            <div id="progressBarDoted">
+            </div>
+             
+            <div class="extraInfo">
+                <p style="color: rgb(185, 185, 1);">Página creada solo con fines ilustrativos.</p>
+                <p>Por Joseangel Bolívar</p>
+            </div>
+        </div>
+        <div id="countdown">Cargando...</div>
+    </div>
+    <div class="info">
+        <h2>Información general</h2>
+        <p>
+            El asteroide 2024 YR4 es un asteroide cercano a la Tierra, lo que significa que es un asteroide que tiene una órbita que lo lleva al interior de la región de la órbita terrestre en el sistema solar. Se estima que 2024 YR4 mide entre 40 y 90 metros (130 a 300 pies) de ancho y tiene una probabilidad muy pequeña de hacer impacto con la Tierra el 22 de diciembre de 2032.
+        </p>
+        <p>
+            Este objeto es de particular interés para la defensa planetaria por dos razones: 1) es lo suficientemente grande como para ocasionar daños en un área localizada, en el caso poco probable de que choque con la Tierra y 2) aunque existe una posibilidad muy pequeña de que 2024 YR4 haga impacto con la Tierra en 2032, ha superado el umbral de probabilidad de impacto del 1%, lo cual justifica la notificación formal sobre este objeto a otras agencias gubernamentales de Estados Unidos involucradas en la defensa planetaria, así como al Grupo Asesor para la Planificación de Misiones Espaciales y a la Oficina de Asuntos del Espacio Ultraterrestre de las Naciones Unidas, según los estatutos de la Red Internacional de Alerta de Asteroides para tales notificaciones.
+        </p>
+        <p>
+            A medida que se obtengan más observaciones de la órbita del asteroide, se conocerá mejor la probabilidad de su impacto. Es posible que se descarte el peligro de impacto de 2024 YR4, como ha sucedido con muchos otros objetos que han aparecido previamente en la lista de riesgo de asteroides del Laboratorio de Propulsión a Chorro (JPL, por sus siglas en inglés) de la NASA. También es posible que la probabilidad de su impacto continúe aumentando. Los datos más recientes seguirán estando disponibles en la página automatizada del sitio web en Sentry de la NASA, en inglés. También se seguirán publicando actualizaciones en el blog sobre defensa planetaria de la NASA, también en inglés.
+        </p>
+        <p>
+            El informe sobre 2024 YR4 fue notificado por primera vez al Centro de Planetas Menores (el centro internacional de intercambio de información sobre cuerpos celestes pequeños y los datos de medición de sus posiciones) por el Sistema de Última Alerta de Impacto Terrestre de Asteroides (ATLAS, por sus siglas en inglés), un organismo financiado por la NASA, el 27 de enero de 2025 desde Chile. ATLAS se compone de varios telescopios en diferentes lugares del mundo y es administrado por el Instituto de Astronomía de la Universidad de Hawái.
+        </p>
+
+        <strong>Fuente:</strong> <a href="https://ciencia.nasa.gov/sistema-solar/asteroide-2024-yr4/" target="_blank">NASA Ciencia</a><br>
+
+    </div>
+
+ 
+
+
+    <script>
+        // Fecha final definida (año, mes (0-11), día, hora, minuto, segundo)
+        const fechaImpacto = new Date(2032, 11, 22, 0, 0, 0); // 31 de diciembre de 2024
+
+        const earth = document.getElementById('earth');
+        const asteroid = document.getElementById('asteroid');
+        const countdownElement = document.getElementById('countdown');
+        const progressBar = document.getElementById('progressBar');
+        const progressBarDoted = document.getElementById('progressBarDoted');
+
+        function actualizarCountdown() {
+            const ahora = new Date();
+            const diferencia = fechaImpacto - ahora;
+
+            const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+            const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
+            const segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
+
+            countdownElement.innerHTML = `
+                Tiempo estimado para el impacto:<br>
+                ${dias} días, ${horas} horas, ${minutos} minutos, ${segundos} segundos
+            `;
+
+            // Calcular el progreso del acercamiento (0% a 100%)
+            const tiempoTotal = fechaImpacto - new Date(2023, 0, 1); // Tiempo total desde el 1 de enero de 2023
+            const progreso = 100 - ((diferencia / tiempoTotal) * 100);
+
+            // Mover el asteroide hacia la Tierra
+            asteroid.style.right = `${progreso - 18}%`;
+            progressBar.style.width = `${100 - progreso + 10}%`;
+            progressBarDoted.style.width = `${progreso - 18}%`;
+
+            if (diferencia < 0) {
+                clearInterval(intervalo);
+                countdownElement.innerHTML = "¡El asteroide ha impactado!";
+                asteroid.style.right = '0%'; // El asteroide llega a la Tierra
+            }
+        }
+
+        const intervalo = setInterval(actualizarCountdown, 1000);
+        actualizarCountdown(); // Llamada inicial para evitar el retraso de 1 segundo
+    </script>
+</body>
+</html>
